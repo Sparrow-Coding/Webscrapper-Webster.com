@@ -11,6 +11,8 @@ window = Tk()
 window.title("Hangman")
 Game_Dictionary = []
 The_definition_of_word = []
+Score = 0
+print(Score)
 #Images for Game
 photos = [
 PhotoImage(file="images\hang0.png"),
@@ -130,6 +132,21 @@ def ninth_defintion():
         ninth_defintion_of_word = ninth_defintion_of_word[11:-7]
         The_definition_of_word.append(ninth_defintion_of_word)
 
+def hint():
+    The_definition_of_word.clear()
+    definition()
+    secondary_definition()
+    third_definiition()
+    fourth_definition()
+    fifth_definition()
+    sixth_defintion()
+    seventh_defintion()
+    eigth_defintion()
+    ninth_defintion()
+    messagebox.showinfo(title="The definition", message=The_definition_of_word)
+    #Button(window,text=The_definition_of_word,  font=("Helvetica 10 bold")).grid(row=4, column=1, sticky="NSWE")
+
+
 
 #The Game
 def newGame():
@@ -170,6 +187,7 @@ def newGame():
 
 def guess(letter):
     global numberOfGuesses
+    global Score
     if numberOfGuesses<11:
 
         txt=list(the_word_withSpaces)
@@ -180,13 +198,15 @@ def guess(letter):
                     guessed[c]=letter
                 lblWord.set("".join(guessed))
                 if lblWord.get()==the_word_withSpaces:
-                    messagebox.showinfo(("Hangman","You guessed it!"))
+                    Score += 1
+                    print(Score)
+                    newGame()
 
         else:
             numberOfGuesses+=1
             imgLabel.config(image=photos[numberOfGuesses])
             if  numberOfGuesses == 11:
-                messagebox.showwarning("Hangman", "Game Over!")
+                messagebox.showwarning("Score:", Score)
 
 imgLabel =Label(window)
 imgLabel.grid(row=0, column=0, columnspan=3, padx=10, pady=40)
@@ -201,6 +221,8 @@ for c in ascii_uppercase:
     n+=1
 
 Button(window, text="New\nGame", command=lambda :newGame(), font=("Helvetica 10 bold")).grid(row=3, column=8, sticky="NSWE")
+Button(window,text="Hint",command=lambda  :hint(), font=("Helvetica 10 bold")).grid(row=0, column=0)
+Button(window,text=Score,font=("Helvetica 10 bold")).grid(row=0, column=9)
 
 newGame()
 window.mainloop()
