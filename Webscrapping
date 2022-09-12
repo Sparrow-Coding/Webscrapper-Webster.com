@@ -41,7 +41,7 @@ def web_page_letters():
     r = requests.get(word_search)
     soup = BeautifulSoup(r.content,'html5lib')
     print(word_search)
-web_page_letters()
+
 def web_page_numbers():
     global webster_url
     global the_number
@@ -64,11 +64,7 @@ def web_page_numbers():
             the_number = int(second_number + second_number_second_digit + second_number_third_digit)
         web_page_number = str(random.randrange(1, the_number))
         print(web_page_number)
-web_page_numbers()
-webster_url = the_word_search + '/' + web_page_number
-print(webster_url)
-p = requests.get(webster_url)
-soup3 = BeautifulSoup(p.content, 'html5lib')
+
 def word_list():
     global word
     for link in soup3.find_all('a'):
@@ -78,14 +74,7 @@ def word_list():
             word = word.replace("-", "")
             word = word.replace(" ", "")
             Game_Dictionary.append(word)
-word_list()
-the_word = random.choice(Game_Dictionary)
-the_word_withSpaces = " ".join(the_word)
-webster_word = "https://www.merriam-webster.com/dictionary/" + the_word.lower()
-print(webster_word)
-t = requests.get(webster_word)
-soup2 = BeautifulSoup(t.content, 'html5lib')
-print(the_word)
+
 def definition():
     global The_definition_of_word
     global w
@@ -94,58 +83,85 @@ def definition():
         definition_of_word = str(link)
         definition_of_word = definition_of_word[56:-7]
         The_definition_of_word.append(definition_of_word)
-definition()
+
 def secondary_definition():
     for term in soup2.findAll('a', attrs={'class': 'href'}):
         secondary_defintion_of_word = str(term)
         secondary_defintion_of_word = secondary_defintion_of_word[11::]
         The_definition_of_word.append(secondary_defintion_of_word)
-secondary_definition()
+
 def third_definiition():
     for dic_word in soup2.findAll('em', attrs={'class': 'mw_t_it'}):
         third_defintion_of_word = str(dic_word)
         third_defintion_of_word = third_defintion_of_word[19:-5]
         The_definition_of_word.append(third_defintion_of_word)
-third_definiition()
+
 def fourth_definition():
     for word in soup2.findAll('span', attrs={'class': 'cxl'}):
         fourth_defintion_of_word = str(word)
         The_definition_of_word.append(fourth_defintion_of_word)
-fourth_definition()
+
 def fifth_definition():
     for words in soup2.findAll('span', attrs={'class': 'text-uppercase'}):
         fifth_defintion_of_word = str(words)
         fifth_defintion_of_word = fifth_defintion_of_word[17:-7]
         The_definition_of_word.append(fifth_defintion_of_word)
-fifth_definition()
+
 def sixth_defintion():
     for wordz in soup2.findAll('a', attrs={'class': 'mw_t_d_link'}):
         sixth_defintion_of_word = str(wordz)
         The_definition_of_word.append(sixth_defintion_of_word)
-sixth_defintion()
+
 def seventh_defintion():
     for terms in soup2.findAll('a', 'href'):
         seventh_defintion_of_word = str(terms)
         seventh_defintion_of_word = seventh_defintion_of_word[40:-13]
         The_definition_of_word.append(seventh_defintion_of_word)
-seventh_defintion()
+
 def eigth_defintion():
     for termz in soup2.findAll('span', attrs={'class': 'text-uppercase'}):
         eigth_defintion_of_word = str(termz)
         eigth_defintion_of_word = eigth_defintion_of_word[28: -7]
         The_definition_of_word.append(eigth_defintion_of_word)
-eigth_defintion()
+
 def ninth_defintion():
     for strong in soup2.findAll('strong', atrrs={'class': 'href'}):
         ninth_defintion_of_word = str(strong)
         ninth_defintion_of_word = ninth_defintion_of_word[11:-7]
         The_definition_of_word.append(ninth_defintion_of_word)
-ninth_defintion()
-print(The_definition_of_word)
+
+
 #The Game
 def newGame():
     global the_word_withSpaces
     global numberOfGuesses
+    global soup3
+    global soup2
+    web_page_letters()
+    web_page_numbers()
+    webster_url = the_word_search + '/' + web_page_number
+    print(webster_url)
+    p = requests.get(webster_url)
+    soup3 = BeautifulSoup(p.content, 'html5lib')
+    word_list()
+    the_word = random.choice(Game_Dictionary)
+    the_word_withSpaces = " ".join(the_word)
+    webster_word = "https://www.merriam-webster.com/dictionary/" + the_word.lower()
+    print(webster_word)
+    t = requests.get(webster_word)
+    soup2 = BeautifulSoup(t.content, 'html5lib')
+    print(the_word)
+    definition()
+    secondary_definition()
+    third_definiition()
+    fourth_definition()
+    fifth_definition()
+    sixth_defintion()
+    seventh_defintion()
+    eigth_defintion()
+    ninth_defintion()
+    print(The_definition_of_word)
+
     numberOfGuesses=0
     imgLabel.config(image=photos[0])
     lblWord.set(" ".join("_"*len(the_word)))
